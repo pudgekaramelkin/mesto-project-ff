@@ -1,17 +1,19 @@
 const cardTemplate = document.querySelector('#card-template').content;
 const cardsList = document.querySelector('.places__list');
 
-function createCard(cardItem) {
+function createCard(cardItem, deleteCardFunction) {
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
   cardElement.querySelector('.card__image').src = cardItem.link;
-  cardElement.querySelector('.card__image').alt = cardItem.name;
+  cardElement.querySelector('.card__image').alt = `Локация: ${cardItem.name}`;
   cardElement.querySelector('.card__title').textContent = cardItem.name;
-  cardElement.querySelector('.card__delete-button').addEventListener('click', function(event) {
-    event.target.closest('.card').remove();
-  });
+  cardElement.querySelector('.card__delete-button').addEventListener('click', (event) => deleteCardFunction(event));
   cardsList.append(cardElement);
 }
 
+function deleteCard(event) {
+  event.target.closest('.card').remove();
+}
+
 initialCards.forEach(cardItem => {
-  createCard(cardItem);
+  createCard(cardItem, deleteCard);
 });
