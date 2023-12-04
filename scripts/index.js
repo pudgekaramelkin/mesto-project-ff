@@ -8,8 +8,8 @@ const createCard = (cardItem, deleteCardFunction) => {
   cardElement.querySelector('.card__title').textContent = cardItem.name;
   cardElement
     .querySelector('.card__delete-button')
-    .addEventListener('click', (event) => deleteCardFunction(event));
-  cardsList.append(cardElement);
+    .addEventListener('click', deleteCardFunction);
+  return cardElement;
 };
 
 const deleteCard = (event) => {
@@ -17,5 +17,5 @@ const deleteCard = (event) => {
 };
 
 initialCards.forEach((cardItem) => {
-  createCard(cardItem, deleteCard);
+  cardsList.append(createCard(cardItem, deleteCard));
 });
