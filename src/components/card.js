@@ -14,11 +14,10 @@ export const createCard = (
     .addEventListener('click', deleteCardFunction);
   const likeButton = cardElement.querySelector('.card__like-button');
   likeButton.addEventListener('click', likeCard);
-	const showImageButton = cardElement.querySelector('.card__image');
+  const showImageButton = cardElement.querySelector('.card__image');
   showImageButton.addEventListener('click', () => {
-		openCardImage(cardItem.name, cardItem.link)
-		console.log(cardItem.name)
-	});
+    openCardImage(cardItem.name, cardItem.link);
+  });
   return cardElement;
 };
 
@@ -29,4 +28,3 @@ export const deleteCard = (event) => {
 export const likeCard = (event) => {
   event.target.classList.toggle('card__like-button_is-active');
 };
-
