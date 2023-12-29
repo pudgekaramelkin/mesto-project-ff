@@ -4,6 +4,12 @@
   width: 100%;
 }
 
+.card__image::before {
+  content: "";
+  display: block;
+  height: 267px;
+}
+
 .card__image:hover {
   cursor: pointer;
 }
