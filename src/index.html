@@ -14,7 +14,7 @@
       <header class="header page__section">
         <img
           src="<%=require('./images/logo.svg')%>"
-          alt="Логотип проекта масто"
+          alt="Логотип проекта место"
           class="logo header__logo"
         />
       </header>
@@ -44,7 +44,7 @@
         </section>
       </main>
       <footer class="footer page__section">
-        <p class="footer__copyright">© 2021 Mesto Russia</p>
+        <p class="footer__copyright">© 2024 Mesto Russia</p>
       </footer>
       <div class="popup popup_type_edit">
         <div class="popup__content">
@@ -54,21 +54,35 @@
             aria-label="Закрыть форму 'Редактировать профиль'"
           ></button>
           <h3 class="popup__title">Редактировать профиль</h3>
-          <form class="popup__form" name="edit-profile">
+          <form class="popup__form form" name="edit-profile" novalidate>
             <input
               type="text"
               name="name"
               class="popup__input popup__input_type_name"
               placeholder="Имя"
+              minlength="2"
+              maxlength="40"
+              id="popup__input_type_name"
+              pattern="^[a-zA-Zа-яА-Яё_ \-]+$"
+              data-error-message="Разрешены только латинские и кириллические буквы, знаки дефиса и пробелы."
               required
             />
+            <span class="form__input-error popup__input_type_name-error"></span>
             <input
               type="text"
               name="description"
               class="popup__input popup__input_type_description"
               placeholder="Занятие"
+              minlength="2"
+              maxlength="200"
+              id="popup__input_type_description"
+              pattern="^[a-zA-Zа-яА-Яё_ \-]+$"
+              data-error-message="Разрешены только и кириллические буквы, знаки дефиса и пробелы."
               required
             />
+            <span
+              class="form__input-error popup__input_type_description-error"
+            ></span>
             <button type="submit" class="button popup__button">
               Сохранить
             </button>
@@ -83,21 +97,31 @@
             aria-label="Закрыть форму 'Новое место'"
           ></button>
           <h3 class="popup__title">Новое место</h3>
-          <form class="popup__form" name="new-place">
+          <form class="popup__form form" name="new-place" novalidate>
             <input
               type="text"
               name="place-name"
               class="popup__input popup__input_type_card-name"
+              id="popup__input_type_card-name"
               placeholder="Название"
+              minlength="2"
+              maxlength="30"
+              pattern="^[a-zA-Zа-яА-Яё_ \-]+$"
+              data-error-message="Разрешены только и кириллические буквы, знаки дефиса и пробелы."
               required
             />
+            <span
+              class="form__input-error popup__input_type_card-name-error"
+            ></span>
             <input
               type="url"
               name="link"
               class="popup__input popup__input_type_url"
+              id="popup__input_type_url"
               placeholder="Ссылка на картинку"
               required
             />
+            <span class="form__input-error popup__input_type_url-error"></span>
             <button type="submit" class="button popup__button">
               Сохранить
             </button>

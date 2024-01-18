@@ -4,7 +4,7 @@ export const createCard = (
   deleteCardFunction,
   likeCard,
   openCardImage
-) => {
+) => { 
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
   cardElement.querySelector('.card__image').src = cardItem.link;
   cardElement.querySelector('.card__image').alt = `Локация: ${cardItem.name}`;
