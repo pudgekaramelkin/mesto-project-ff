@@ -1,11 +1,26 @@
 const cardTemplate = document.querySelector('#card-template').content;
-export const createCard = (
+
+import {
+  likeCard,
+  unlikeCard,
+} from './api.js';
+
+export const createCard = ({
   cardItem,
   deleteCard,
   openCardImage,
   toggleLikeCard,
-  currentUserId
-) => {
+  currentUserId,
+}) => {
+  const deleteFunctionCallback = (event) => {
+    deleteCard(cardItem)
+      .then(() => {
+        event.target.closest('.card').remove();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
   const cardUserId = cardItem.owner['_id'];
   cardElement.querySelector('.card__image').src = cardItem.link;
@@ -13,24 +28,40 @@ export const createCard = (
   cardElement.querySelector('.card__title').textContent = cardItem.name;
   cardElement.querySelector('.card__like-amount').textContent =
     cardItem.likes.length;
-  (currentUserId === cardUserId)
+  currentUserId === cardUserId
     ? cardElement
         .querySelector('.card__delete-button')
-        .addEventListener('click', (event) => {
-          event.target.closest('.card').remove();
-          deleteCard(cardItem);
-        })
+        .addEventListener('click', deleteFunctionCallback)
     : cardElement.querySelector('.card__delete-button').remove();
   const likeButton = cardElement.querySelector('.card__like-button');
-  if (cardItem.likes.some((like) => (currentUserId === like['_id']))) {
+  if (cardItem.likes.some((like) => currentUserId === like['_id'])) {
     likeButton.classList.add('card__like-button_is-active');
   }
   likeButton.addEventListener('click', (event) => {
     toggleLikeCard(event, cardItem, cardElement);
   });
-  const showImageButton = cardElement.querySelector('.card__image');
-  showImageButton.addEventListener('click', () => {
+  const cardImageButton = cardElement.querySelector('.card__image');
+  cardImageButton.addEventListener('click', () => {
     openCardImage(cardItem.name, cardItem.link);
   });
   return cardElement;
+};
+
+export const toggleLikeCard = (event, cardItem, cardElement) => {
+  const currentLikes = cardElement.querySelector('.card__like-amount');
+  if (event.target.classList.contains('card__like-button_is-active')) {
+    unlikeCard(cardItem)
+      .then((card) => {
+        event.target.classList.remove('card__like-button_is-active');
+        currentLikes.textContent = card.likes.length;
+      })
+      .catch((error) => console.log(error));
+  } else {
+    likeCard(cardItem)
+      .then((card) => {
+        event.target.classList.add('card__like-button_is-active');
+        currentLikes.textContent = card.likes.length;
+      })
+      .catch((error) => console.log(error));
+  }
 };

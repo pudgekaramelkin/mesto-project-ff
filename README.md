@@ -13,4 +13,5 @@
 
 3. CSS
 
-https://github.com/pudgekaramelkin/mesto-project-ff.git
+Ссылка на репозиторий: https://github.com/pudgekaramelkin/mesto-project-ff.git
+Ссылка на сайт (gh-pages): https://pudgekaramelkin.github.io/mesto-project-ff/
