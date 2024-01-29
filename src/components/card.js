@@ -3,24 +3,15 @@ const cardTemplate = document.querySelector('#card-template').content;
 import {
   likeCard,
   unlikeCard,
+  deleteCard 
 } from './api.js';
 
 export const createCard = ({
   cardItem,
-  deleteCard,
   openCardImage,
   toggleLikeCard,
   currentUserId,
 }) => {
-  const deleteFunctionCallback = (event) => {
-    deleteCard(cardItem)
-      .then(() => {
-        event.target.closest('.card').remove();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
   const cardUserId = cardItem.owner['_id'];
   cardElement.querySelector('.card__image').src = cardItem.link;
@@ -31,7 +22,9 @@ export const createCard = ({
   currentUserId === cardUserId
     ? cardElement
         .querySelector('.card__delete-button')
-        .addEventListener('click', deleteFunctionCallback)
+        .addEventListener('click', (event) => {
+          deleteFunctionCallback(event, cardItem);
+        })
     : cardElement.querySelector('.card__delete-button').remove();
   const likeButton = cardElement.querySelector('.card__like-button');
   if (cardItem.likes.some((like) => currentUserId === like['_id'])) {
@@ -45,6 +38,16 @@ export const createCard = ({
     openCardImage(cardItem.name, cardItem.link);
   });
   return cardElement;
+};
+
+const deleteFunctionCallback = (event, cardItem) => {
+  deleteCard(cardItem)
+    .then(() => {
+      event.target.closest('.card').remove();
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
 export const toggleLikeCard = (event, cardItem, cardElement) => {
