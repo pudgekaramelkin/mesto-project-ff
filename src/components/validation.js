@@ -74,7 +74,7 @@ export const clearValidation = (formElement, validationConfig) => {
   const buttonElement = formElement.querySelector(
     validationConfig.submitButtonSelector
   );
-  toggleButtonState(inputList, buttonElement, validationConfig)
+  toggleButtonState(inputList, buttonElement, validationConfig);
   inputList.forEach((inputElement) => {
     hideInputError(formElement, inputElement, validationConfig);
     inputElement.setCustomValidity('');

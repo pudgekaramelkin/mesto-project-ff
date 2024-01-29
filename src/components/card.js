@@ -1,14 +1,11 @@
 const cardTemplate = document.querySelector('#card-template').content;
 
-import {
-  likeCard,
-  unlikeCard,
-  deleteCard 
-} from './api.js';
+import { likeCard, unlikeCard, deleteCard } from './api.js';
 
 export const createCard = ({
   cardItem,
   openCardImage,
+  deleteCardFunction,
   toggleLikeCard,
   currentUserId,
 }) => {
@@ -23,7 +20,7 @@ export const createCard = ({
     ? cardElement
         .querySelector('.card__delete-button')
         .addEventListener('click', (event) => {
-          deleteFunctionCallback(event, cardItem);
+          deleteCardFunction(event, cardItem);
         })
     : cardElement.querySelector('.card__delete-button').remove();
   const likeButton = cardElement.querySelector('.card__like-button');
@@ -40,7 +37,7 @@ export const createCard = ({
   return cardElement;
 };
 
-const deleteFunctionCallback = (event, cardItem) => {
+export const deleteFunctionCallback = (event, cardItem) => {
   deleteCard(cardItem)
     .then(() => {
       event.target.closest('.card').remove();

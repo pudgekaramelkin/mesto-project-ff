@@ -1,5 +1,5 @@
 import '../pages/index.css';
-import { createCard, toggleLikeCard } from './card.js';
+import { createCard, toggleLikeCard, deleteFunctionCallback } from './card.js';
 import { openModal, closeModal } from './modal.js';
 import { enableValidation, clearValidation } from './validation.js';
 import {
@@ -18,8 +18,10 @@ const formElementProfile = document.forms['edit-profile'];
 const formElementAvatar = document.forms['edit-avatar'];
 
 const formElementCardButton = formElementCard.querySelector('.popup__button');
-const formElementProfileButton = formElementProfile.querySelector('.popup__button');
-const formElementAvatarButton = formElementAvatar.querySelector('.popup__button');
+const formElementProfileButton =
+  formElementProfile.querySelector('.popup__button');
+const formElementAvatarButton =
+  formElementAvatar.querySelector('.popup__button');
 
 const profilePopup = document.querySelector('.popup_type_edit');
 const cardPopup = document.querySelector('.popup_type_new-card');
@@ -84,8 +86,8 @@ const addNewCard = (event) => {
       cardsList.prepend(
         createCard({
           cardItem: cardData,
-          deleteCard: deleteCard,
           openCardImage: openCardImage,
+          deleteCardFunction: deleteFunctionCallback,
           toggleLikeCard: toggleLikeCard,
           currentUserId: cardData.owner['_id'],
         })
@@ -135,23 +137,23 @@ const updateUserAvatarSubmit = (event) => {
   renderTextLoading({
     isLoading: true,
     buttonElement: formElementAvatarButton,
-  })
+  });
   clearValidation(userAvatarPopup, validationConfig);
   updateUserAvatar(avatarInput.value)
-  .then(() => {
-    profileImage.style.backgroundImage = `url(${avatarInput.value})`;
-    formElementAvatar.reset();
-    closeModal(userAvatarPopup);
-  })
-  .catch((error) => {
-    console.log(error);
-  })
-  .finally(() => {
-    renderTextLoading({
-      isLoading: false,
-      buttonElement: formElementAvatarButton,
+    .then(() => {
+      profileImage.style.backgroundImage = `url(${avatarInput.value})`;
+      formElementAvatar.reset();
+      closeModal(userAvatarPopup);
     })
-  });
+    .catch((error) => {
+      console.log(error);
+    })
+    .finally(() => {
+      renderTextLoading({
+        isLoading: false,
+        buttonElement: formElementAvatarButton,
+      });
+    });
 };
 
 formElementProfile.addEventListener('submit', handleFormProfileSubmit);
@@ -196,8 +198,8 @@ Promise.all([getUserInfo(), getInitialCards()])
       cardsList.append(
         createCard({
           cardItem: cardItem,
-          deleteCard: deleteCard,
           openCardImage: openCardImage,
+          deleteCardFunction: deleteFunctionCallback,
           toggleLikeCard: toggleLikeCard,
           currentUserId: user['_id'],
         })
